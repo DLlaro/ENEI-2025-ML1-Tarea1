@@ -6,80 +6,47 @@
 
 ---
 
-## Part A. Linear Regression From Scratch
+### Integrantes del Grupo:
 
-1. **Dataset**
-   Use the **California Housing dataset** (`from sklearn.datasets import fetch_california_housing`).
+- Hidalgo Eche, Diana
+- Llaro Castro, Diego
 
-   * Create a hold-out test set.
-   * Standardize features to zero mean and unit variance.
-   * Predict the median house value (`MedHouseVal`) from the remaining features using `LinearRegression` from `sklearn.linear_model`.
 
-2. **Closed-form OLS**
+#### Diferencias entre OLS, Ridge y Lasso
 
-   * Derive and implement $\hat\beta = (X^\top X)^{-1}X^\top y$ using only `numpy`.
-   * Report coefficients and intercept.
-   * Plot predicted vs. true median house value on a held-out test set.
+En el modelo de Regresión Lineal por OLS, los coeficientes se estiman únicamente minimizando el error cuadrático medio. Esto genera un ajuste correcto, pero puede verse afectado por problemas de multicolinealidad (alta correlación entre variables) o sobreajuste si el número de predictores es grande.
 
-3. **Gradient Descent**
+Con la incorporación de Ridge se observa que los coeficientes se reducen en magnitud conforme aumenta el parámetro de regularización α, aunque ninguno de ellos llega a ser exactamente cero. Esto implica que Ridge distribuye el peso entre todas las variables, controlando la varianza del modelo y mejorando su capacidad de generalización.
 
-   * Implement gradient descent to minimize mean squared error.
-   * Experiment with at least two learning rates; show cost vs. iteration curves.
-   * Compare parameters and test error to the closed-form OLS.
+Por otro lado, Lasso no solo reduce la magnitud de los coeficientes, sino que algunos de ellos se vuelven exactamente cero para valores suficientemente grandes de α. En consecuencia, Lasso realiza también una selección automática de variables, simplificando el modelo.
 
----
 
-## Part B. Scikit-learn Linear Models
+#### Efecto de la tasa de aprendizaje en el descenso de gradiente
 
-4. **Baseline**
+El algoritmo de Descenso de Gradiente fue implementado con tres valores de tasa de aprendizaje: 0.01, 0.001 y 0.0001.
 
-   * Use `LinearRegression` and confirm the coefficients match your OLS implementation.
-   * Compute $R^2$ and mean squared error on the test set.
+Con learning rate = 0.01:
+El costo disminuyó de manera rápida en las primeras iteraciones y se alcanzó la convergencia en pocas épocas. Esto permitió aproximarse de forma eficiente a la solución de OLS.
 
----
+Con learning rate = 0.001:
+El descenso fue más estable pero notoriamente más lento. Se requirieron muchas más iteraciones para que la función de costo se acercara al mínimo.
 
-## Part C. Regularization and Hyperparameter Choice
+Con learning rate = 0.0001:
+La convergencia fue extremadamente lenta, al punto que incluso tras varias iteraciones el costo seguía siendo relativamente alto. Esto evidencia que un valor demasiado pequeño hace que el entrenamiento sea ineficiente.
 
-5. **Ridge and Lasso**
 
-   * Fit `Ridge` and `Lasso` regressions for $\lambda$ values logarithmically spaced between $10^{-3}$ and $10^{2}$.
-   * Plot coefficient magnitude vs. $\lambda$ (regularization paths).
-   * Comment on which features shrink to (or toward) zero and why.
+#### Rol de la validación cruzada k-Fold en la selección de la fuerza de regularización
 
-6. **k-Fold Cross-Validation**
+La validación cruzada k-Fold se utilizó para seleccionar el valor óptimo de α en Ridge y Lasso.
 
-   * Use `KFold` with 5 folds and `cross_val_score` to select the best $\alpha$ for both Ridge and Lasso.
-   * Alternatively, demonstrate the convenience of `RidgeCV` and `LassoCV`.
-   * Compare cross-validated test errors.
+El procedimiento consiste en:
 
-7. **Feature Engineering & Multicollinearity**
+Dividir el conjunto de entrenamiento en k pliegues.
+Entrenar el modelo con distintos valores de α en k-1 pliegues y evaluar el error en el pliegue restante.
+Repetir el proceso k veces y promediar los errores.
+De este modo, se comparan los errores promedio para distintos α, eligiendo aquel que minimiza el error de validación.
 
-  * Add polynomial features (degree 2) using `PolynomialFeatures`.
-  * Re-run Ridge/Lasso and discuss how regularization copes with the enlarged feature space.
+Los resultados mostraron que:
 
----
-
-## Part D. Bike Rentals
-
-8. **Alternative Dataset**
-
-  * Use the **Bike Sharing Dataset** (available in the `data` folder).
-  * Predict daily rentals (`cnt`); investigate seasonal effects.
-  * Apply all the same steps as above.
-
----
-
-### Deliverables
-You must fork the [original repository](), and turn in a link to your groups repository with:
-
-* A Jupyter notebook (in the `src` folder) with:
-
-  * Your `numpy` implementations for OLS and gradient descent,
-  * Plots: cost-function convergence, coefficient paths, predicted vs. actual values.
-* A write-up in Markdown. Replace the contents of this file (`README.md`) with:
-  
-  * The names of your group's members,
-  * Differences observed between OLS, Ridge, and Lasso,
-  * Effect of learning rate on gradient descent,
-  * How k-fold cross-validation influenced the choice of regularization strength.
-
+Para Ridge, el error disminuye al introducir una regularización moderada, y aumenta si α es demasiado grande (por exceso de penalización).
+Para Lasso, la validación cruzada identifica un α que equilibra bien la reducción de complejidad con el error de predicción.
