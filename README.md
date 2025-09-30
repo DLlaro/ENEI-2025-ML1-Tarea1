@@ -21,10 +21,10 @@ Con la incorporación de Ridge se observa que los coeficientes se reducen en mag
 Por otro lado, Lasso no solo reduce la magnitud de los coeficientes, sino que algunos de ellos se vuelven exactamente cero para valores suficientemente grandes de α. En consecuencia, Lasso realiza también una selección automática de variables, simplificando el modelo.
 
 Los errores cuadráticos medios fueron los siguientes:
--MSE OLS - forma cerrada: 0.5558915986952438
--MSE GD: 0.5549457340435588
--MSE Ridge: 0.5557665649520098
--MSE Lasso: 0.5544913600832686
+- MSE OLS - forma cerrada: 0.5558915986952438
+- MSE GD: 0.5549457340435588
+- MSE Ridge: 0.5557665649520098
+- MSE Lasso: 0.5544913600832686
 
 Siendo el que tuvo menor error Lasso.
 
