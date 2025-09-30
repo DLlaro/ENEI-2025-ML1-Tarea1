@@ -25,13 +25,13 @@ Por otro lado, Lasso no solo reduce la magnitud de los coeficientes, sino que al
 
 El algoritmo de Descenso de Gradiente fue implementado con tres valores de tasa de aprendizaje: 0.01, 0.001 y 0.0001.
 
-Con learning rate = 0.01:
+Con learning rate = 0.1:
 El costo disminuyó de manera rápida en las primeras iteraciones y se alcanzó la convergencia en pocas épocas. Esto permitió aproximarse de forma eficiente a la solución de OLS.
 
-Con learning rate = 0.001:
+Con learning rate = 0.01:
 El descenso fue más estable pero notoriamente más lento. Se requirieron muchas más iteraciones para que la función de costo se acercara al mínimo.
 
-Con learning rate = 0.0001:
+Con learning rate = 0.001:
 La convergencia fue extremadamente lenta, al punto que incluso tras varias iteraciones el costo seguía siendo relativamente alto. Esto evidencia que un valor demasiado pequeño hace que el entrenamiento sea ineficiente.
 
 
