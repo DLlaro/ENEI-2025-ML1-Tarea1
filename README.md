@@ -30,7 +30,7 @@ Siendo el que tuvo menor error Lasso.
 
 #### Efecto de la tasa de aprendizaje en el descenso de gradiente
 
-El algoritmo de Descenso de Gradiente fue implementado con tres valores de tasa de aprendizaje: 0.01, 0.001 y 0.0001.
+El algoritmo de Descenso de Gradiente fue implementado con tres valores de tasa de aprendizaje: 0.1, 0.01 y 0.001.
 
 Con learning rate = 0.1:
 El costo disminuyó de manera rápida en las primeras iteraciones y se alcanzó la convergencia en pocas épocas. Esto permitió aproximarse de forma eficiente a la solución de OLS.
